@@ -1,4 +1,4 @@
-from BBS_logical import G
+from BBS_logical import G_bbs_abstraction as G
 from BBS_logical import bbs_abstraction
 import time
 import numpy as np
@@ -195,19 +195,14 @@ Buffer2 = G(transition=np.array([[1, 1, 2], [2, 2, 1], [2, 1, 3],
             initial=1)
 start = time.time()
 for i in range(0, 100):
-    bbs_abstraction(Buffer2)
+    bbs_abstraction(G20)
 end = time.time()
 
 print("", end - start)
-print(bbs_abstraction(Buffer2))
-
-
-def test_performance(g):
-    for i in range(100):
-        bbs_abstraction(g)
+print(bbs_abstraction(G20))
 
 
 lp = LineProfiler()
 lp_wrapper = lp(bbs_abstraction)
-lp_wrapper(Buffer2)
+lp_wrapper(G20)
 lp.print_stats()

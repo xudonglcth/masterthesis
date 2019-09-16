@@ -3,7 +3,7 @@ import copy as cp
 import profile
 
 
-class G(object):
+class G_bbs_abstraction(object):
     def __init__(self, transition, block, tau, initial):
         self.transition = transition
         self.block = block

@@ -3,7 +3,7 @@ import copy
 import math
 
 
-class G:
+class G_sync:
     def __init__(self, n, sigma, ndelta, delta, sigma_delta, init, lmd):
         self.n = n
         self.sigma = sigma

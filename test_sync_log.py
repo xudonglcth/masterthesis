@@ -1,4 +1,4 @@
-from synchronization_logical import G
+from synchronization_logical import G_sync as G
 from synchronization_logical import synchronization_logical
 import numpy as np
 from line_profiler import LineProfiler
