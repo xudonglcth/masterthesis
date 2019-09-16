@@ -85,8 +85,10 @@ def bbs_abstraction(g):
                 pi[q] = k
 
                 for i in X1[1:]:
-                    # originally: list(Gam[:, i - 1]) = list(Gam[:, q])
-                    if Gam[:, i - 1].all == Gam[:, q].all:
+                    # originally: list(Gam[:, i - 1]) == list(Gam[:, q])
+                    # if np.array_equal(Gam[:, i - 1], Gam[:, q]):
+                    # if np.equal(Gam[:, i - 1], Gam[:, q]).all():
+                    if (Gam[:, i - 1] == Gam[:, q]).all():
                         pi[i - 1] = k
 
     x_pi = np.unique(pi)
@@ -104,7 +106,7 @@ def bbs_abstraction(g):
     for i in range(1, n):
         if pi[i] > max_pi:
             k += 1
-            max_pi = k
+            max_pi = k + 1
             lmd_pi[k] = g.block[i]
 
     return n_pi, T_pi, i_pi, lmd_pi, pi, iteration
