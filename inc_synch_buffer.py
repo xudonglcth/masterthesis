@@ -3,7 +3,6 @@ from BBS_logical import bbs_abstraction, G_bbs_abstraction
 from synchronization_logical import synchronization_logical, G_sync
 
 
-
 def t_2_n_sigma(t):
     if np.size(t) == 0:
         n = 0
@@ -103,6 +102,7 @@ def delta2trans(n, n_delta, delta, sigma_delta):
             k += 1
     return t
 
+
 def inc_sync_buffer(n_cap, n_buff, inc_bbs):
     a = 5
     mark = 1
@@ -171,6 +171,34 @@ def inc_sync_buffer(n_cap, n_buff, inc_bbs):
             n, sigma, t, init, lmd, pi, iteration = bbs(sigma, t, init, lmd, sigma_local)
             n_delta, delta, sigma_delta = trans2delta(n, t)
 
+    model = 5
+    n_1, sigma_1, t_1, init_1, lmd_1, sigma_local = ts_model(model, a, n_cap, mark)
+    n_delta_1, delta_1, sigma_delta_1 = trans2delta(n_1, t_1)
+    g = G_sync(
+        n=n,
+        sigma=set(sigma),
+        ndelta=n_delta,
+        delta=delta,
+        sigma_delta=sigma_delta,
+        init=np.array([init], int),
+        lmd=lmd)
+    g1 = G_sync(
+        n=n_1,
+        sigma=set(sigma_1),
+        ndelta=n_delta_1,
+        delta=delta_1,
+        sigma_delta=sigma_delta_1,
+        init=np.array([init_1], int),
+        lmd=lmd_1)
+    n, sigma, n_delta, delta, sigma_delta, init, lmd = synchronization_logical(g, g1)
+    if inc_bbs:
+        t = delta2trans(n, n_delta, delta, sigma_delta)
+        n, sigma, t, init, lmd, pi, iteration = bbs(sigma, t, init, lmd, sigma_local)
+    else:
+        t = delta2trans(n, n_delta, delta, sigma_delta)
+        n, sigma, t, init, lmd, pi, iteration = bbs(sigma, t, init, lmd, sigma)
+
+    return n, sigma, t, init, lmd
 
 
-inc_sync_buffer(4, 4, 1)
+print(inc_sync_buffer(4, 4, 1))
