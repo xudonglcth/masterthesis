@@ -107,7 +107,7 @@ def bbs_abstraction(g):
             max_pi = k
             lmd_pi[k] = g.block[i]
 
-    return pi
+    return n_pi, T_pi, i_pi, lmd_pi, pi, iteration
 
 
 
