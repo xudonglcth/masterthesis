@@ -1,6 +1,9 @@
 import numpy as np
+import copy
 from BBS_logical import bbs_abstraction, G_bbs_abstraction
 from synchronization_logical import synchronization_logical, G_sync
+from BBS import bbs_org, G
+from line_profiler import LineProfiler
 
 
 def t_2_n_sigma(t):
@@ -56,8 +59,23 @@ def bbs(sigma, t, init, lmd, sigma_local):
         t[np.in1d(t[:, 1], sigma_local), 1] = tau
         sigma = np.union1d(sigma, tau)
     g = G_bbs_abstraction(transition=t, initial=init, block=lmd, tau=tau)
+    t1 = copy.copy(g.transition)
+    t1[:, 1] = t1[:, 1] - 1
+    g_org = G(list(map(tuple, t1)), list(lmd))
     n_pi, t_pi, i_pi, lmd_pi, pi, iteration = bbs_abstraction(g)
+    bbs_org(g_org)
     sigma_pi = np.setdiff1d(sigma, sigma_local)
+
+    lp = LineProfiler()
+    lp_wrapper = lp(bbs_abstraction)
+    lp_wrapper(g)
+    lp.print_stats()
+    """
+    lp = LineProfiler()
+    lp_wrapper = lp(bbs_org)
+    lp_wrapper(g_org)
+    lp.print_stats()
+    """
     return n_pi, sigma_pi, t_pi, i_pi, lmd_pi, pi, iteration
 
 
@@ -115,7 +133,6 @@ def inc_sync_buffer(n_cap, n_buff, inc_bbs):
     n_delta, delta, sigma_delta = trans2delta(n, t)
 
     for k in range(n_buff):
-        print("", k)
         model = 2
         n_1, sigma_1, t_1, init_1, lmd_1, sigma_local = ts_model(model, a, n_cap, mark)
         a += 1
@@ -166,7 +183,7 @@ def inc_sync_buffer(n_cap, n_buff, inc_bbs):
             init=np.array([init_1], int),
             lmd=lmd_1)
         n, sigma, n_delta, delta, sigma_delta, init, lmd = synchronization_logical(g, g1)
-        if (inc_bbs) & (k < n_buff):
+        if (inc_bbs) & (k + 1 < n_buff):
             t = delta2trans(n, n_delta, delta, sigma_delta)
             n, sigma, t, init, lmd, pi, iteration = bbs(sigma, t, init, lmd, sigma_local)
             n_delta, delta, sigma_delta = trans2delta(n, t)
@@ -201,4 +218,4 @@ def inc_sync_buffer(n_cap, n_buff, inc_bbs):
     return n, sigma, t, init, lmd
 
 
-print(inc_sync_buffer(4, 4, 1))
+inc_sync_buffer(10, 5, 1)
