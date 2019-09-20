@@ -65,7 +65,7 @@ def bbs(sigma, t, init, lmd, sigma_local):
     n_pi, t_pi, i_pi, lmd_pi, pi, iteration = bbs_abstraction(g)
     bbs_org(g_org)
     sigma_pi = np.setdiff1d(sigma, sigma_local)
-    """
+
     lp = LineProfiler()
     lp_wrapper = lp(bbs_abstraction)
     lp_wrapper(g)
@@ -75,7 +75,7 @@ def bbs(sigma, t, init, lmd, sigma_local):
     lp_wrapper = lp(bbs_org)
     lp_wrapper(g_org)
     lp.print_stats()
-    """
+
     return n_pi, sigma_pi, t_pi, i_pi, lmd_pi, pi, iteration
 
 
