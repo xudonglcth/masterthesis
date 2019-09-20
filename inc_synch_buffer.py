@@ -218,4 +218,4 @@ def inc_sync_buffer(n_cap, n_buff, inc_bbs):
     return n, sigma, t, init, lmd
 
 
-inc_sync_buffer(10, 10, 1)
+inc_sync_buffer(20, 10, 1)
