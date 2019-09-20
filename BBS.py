@@ -192,9 +192,9 @@ def bbs_org(g):
                 ht[str(gamma_pi_ht[i])] = val
             pi[i] = ht[str(gamma_pi_ht[i])]
     end = time.time()
-    print("\npi_org", pi)
+    # print("\npi_org", pi)
+    print("\ntime_org", end - start)
     print("iter_org", iteration)
-    print("time_org", end - start)
     return pi
 
 # Compute execution time.

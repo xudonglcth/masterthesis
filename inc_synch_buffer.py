@@ -70,7 +70,7 @@ def bbs(sigma, t, init, lmd, sigma_local):
     lp_wrapper = lp(bbs_abstraction)
     lp_wrapper(g)
     lp.print_stats()
-    """
+    """ 
     lp = LineProfiler()
     lp_wrapper = lp(bbs_org)
     lp_wrapper(g_org)
@@ -218,4 +218,4 @@ def inc_sync_buffer(n_cap, n_buff, inc_bbs):
     return n, sigma, t, init, lmd
 
 
-inc_sync_buffer(10, 5, 1)
+inc_sync_buffer(10, 10, 1)
