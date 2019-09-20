@@ -193,16 +193,26 @@ Buffer2 = G(transition=np.array([[1, 1, 2], [2, 2, 1], [2, 1, 3],
             block=[2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
             tau=1,
             initial=1)
+g_test = G(transition=np.array([[1, 1, 2], [2, 1, 3], [3, 1, 4], [3, 7, 1], [4, 1, 5], [4, 7, 2],
+                       [5, 1, 6], [5, 7, 3], [6, 1, 7], [6, 7, 4], [7, 1, 8], [7, 7, 5],
+                       [8, 1, 9], [8, 7, 6], [9, 1, 10], [9, 7, 7], [10, 1, 11], [10, 7 ,8],
+                       [11, 1, 12], [11, 7, 9], [12, 7, 10]]),
+           block=[2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+           tau=1,
+           initial=1)
+"""
 start = time.time()
 for i in range(0, 100):
     bbs_abstraction(G20)
 end = time.time()
 
 print("", end - start)
-print(bbs_abstraction(G20))
+"""
+print(bbs_abstraction(g_test))
 
-
+"""
 lp = LineProfiler()
 lp_wrapper = lp(bbs_abstraction)
-lp_wrapper(G20)
+lp_wrapper(Buffer2)
 lp.print_stats()
+"""

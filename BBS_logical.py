@@ -51,7 +51,6 @@ def bbs_abstraction(g):
 
         iteration += 1
         BT_iv = BT_tau & (pi[g.transition[:, 0] - 1] == pi[g.transition[:, 2] - 1])
-        T_iv = g.transition[BT_iv]
         T_v = g.transition[np.logical_not(BT_iv)]
         B_ivt = cp.copy(BF)
         B_ivt[g.transition[BT_iv, 2] - 1] = True
@@ -61,19 +60,15 @@ def bbs_abstraction(g):
             Gam = np.zeros((n*int(max(T_v[:, 1])) + max(n, max(pi)), n), int)
         for i in range(0, len(T_v)):
             B = cp.copy(BF)
-            index = T_v[i, 0]
             B[T_v[i, 0] - 1] = True
             BD = cp.copy(B)
 
             # originally: max(list(map(int, BD)))
+            # while max(BD):
             while BD.any():
                 BD1 = cp.copy(BF)
                 for q in X[BD & B_ivt]:
                     for j in range(0, ndelta_c[q - 1]):
-                        # index = (q - 1) * np.shape(delta_c)[1] + j
-                        # tem = np.asarray(delta_c)
-                        # tem = tem.ravel()
-                        # index_1 = tem[index] - 1
                         index_1 = delta_c[q - 1, j] - 1
                         if pi[index_1] == pi[q - 1]:
                             BD1[index_1] = True
@@ -121,7 +116,7 @@ def bbs_abstraction(g):
     # print("states", len(g.block))
     # print("reduced states", n_pi)
     # print("size of Gam", gam_size)
-    print("\npi", pi)
+    # print("pi", pi)
 
     return n_pi, T_pi, i_pi, lmd_pi, pi, iteration
 
